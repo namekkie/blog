@@ -49,7 +49,48 @@ export async function getPostData(id: string): Promise<PostData> {
 
   return {
     id,
+    title: matterResult.data.title ?? "Untitled", // タイトルがなければデフォルト値
+    category: matterResult.data.category ?? "Uncategorized", // カテゴリがなければデフォルト値
+    publishedAt: matterResult.data.publishedAt ?? "", // 公開日がなければ空文字
+    createdAt: matterResult.data.createdAt ?? "", // 作成日がなければ空文字
     contentHtml,
-    ...(matterResult.data as { title: string; date: string }), // メタデータの型指定
   };
+}
+
+export async function getAllPostData(length?: number): Promise<PostData[]> {
+  const fileNames = fs.readdirSync(postsDirectory);
+
+  // 各ファイルのデータを取得し、PostData型の配列として返す
+  const allPostsData = await Promise.all(
+    fileNames.map(async (fileName) => {
+      const id = fileName.replace(/\.md$/, "");
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+
+      // gray-matterでメタデータとコンテンツを分離
+      const matterResult = matter(fileContents);
+
+      // MarkdownコンテンツをHTMLに変換
+      const processedContent = await remark()
+        .use(html)
+        .process(matterResult.content);
+      const contentHtml = processedContent.toString();
+
+      // PostDataオブジェクトを返す
+      return {
+        id,
+        title: matterResult.data.title ?? "Untitled", // タイトルがなければデフォルト値
+        category: matterResult.data.category ?? "Uncategorized", // カテゴリがなければデフォルト値
+        publishedAt: matterResult.data.publishedAt ?? "", // 公開日がなければ空文字
+        createdAt: matterResult.data.createdAt ?? "", // 作成日がなければ空文字
+        contentHtml,
+      };
+    })
+  );
+  // 指定された長さ分返す
+  if (length) {
+    return allPostsData.slice(0, length);
+  } else {
+    return allPostsData;
+  }
 }

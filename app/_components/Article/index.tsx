@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { Blog } from "@/app/_libs/microcms";
 import type { PostData } from "@/app/_libs/post";
 import Date from "../Date";
 import Category from "../Category";

@@ -3,10 +3,10 @@ import Link from "next/link";
 import styles from "./index.module.css";
 import Category from "../Category";
 import Date from "../Date";
-import { Blog } from "@/app/_libs/microcms";
+import { PostData } from "@/app/_libs/post";
 
 type Props = {
-  blog: Blog[];
+  blog: PostData[];
 };
 
 export default function BlogList({ blog }: Props) {

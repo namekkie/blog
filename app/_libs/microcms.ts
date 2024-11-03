@@ -1,4 +1,3 @@
-import { log } from "console";
 import { createClient } from "microcms-js-sdk";
 import type { MicroCMSQueries, MicroCMSListContent } from "microcms-js-sdk";
 
