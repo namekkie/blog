@@ -3,8 +3,9 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import prism from "remark-prism";
 
-const postsDirectory = path.join(process.cwd(), "posts");
+const postsDirectory = path.join(process.cwd(), "public/posts");
 
 // Markdownファイルのメタデータとコンテンツを表す型
 export type PostData = {
@@ -22,30 +23,35 @@ type PostIdParams = {
   };
 };
 
+// /posts配下のディレクトリ名を取得する
 export function getAllPostIds(): PostIdParams[] {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const dirEntry = fs.readdirSync(postsDirectory, { withFileTypes: true }); // ディレクトリエントリ情報を取得
+  const dirNames = dirEntry.filter((entry) => entry.isDirectory()); // ディレクトリのみをフィルタ
 
-  return fileNames.map((fileName) => {
+  return dirNames.map((dirname) => {
     return {
       params: {
-        id: fileName.replace(/\.md$/, ""), // 拡張子を削除
+        id: dirname.name, // ディレクトリ名を取得
       },
     };
   });
 }
 
 export async function getPostData(id: string): Promise<PostData> {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+  // mdファイルの読み込み
+  const fullPath = path.join(postsDirectory, `${id}/post.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
 
   // gray-matterを使ってメタデータと内容を分離
   const matterResult = matter(fileContents);
 
   // remarkを使ってMarkdownをHTML文字列に変換
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content);
-  const contentHtml = processedContent.toString();
+  // const processedContent = await remark()
+  //   .use(html)
+  //   .process(matterResult.content);
+  // const contentHtml = processedContent.toString();
+
+  const contentHtml = matterResult.content;
 
   return {
     id,
@@ -58,23 +64,27 @@ export async function getPostData(id: string): Promise<PostData> {
 }
 
 export async function getAllPostData(length?: number): Promise<PostData[]> {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const dirEntry = fs.readdirSync(postsDirectory, { withFileTypes: true }); // ディレクトリエントリ情報を取得
+  const dirNames = dirEntry.filter((entry) => entry.isDirectory()); // ディレクトリのみをフィルタ
+  // const fileNames = fs.readdirSync(postsDirectory);
 
   // 各ファイルのデータを取得し、PostData型の配列として返す
   const allPostsData = await Promise.all(
-    fileNames.map(async (fileName) => {
-      const id = fileName.replace(/\.md$/, "");
-      const fullPath = path.join(postsDirectory, fileName);
+    dirNames.map(async (dirName) => {
+      const id = dirName.name;
+      const fullPath = path.join(postsDirectory, `${id}/post.md`);
       const fileContents = fs.readFileSync(fullPath, "utf8");
 
       // gray-matterでメタデータとコンテンツを分離
       const matterResult = matter(fileContents);
 
       // MarkdownコンテンツをHTMLに変換
-      const processedContent = await remark()
-        .use(html)
-        .process(matterResult.content);
-      const contentHtml = processedContent.toString();
+      //const processedContent = await remark();
+      //.use(html)
+      // .use(prism)
+      //.process(matterResult.content);
+      //const contentHtml = processedContent.toString();
+      const contentHtml = matterResult.content;
 
       // PostDataオブジェクトを返す
       return {
