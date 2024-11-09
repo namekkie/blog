@@ -1,4 +1,7 @@
 @import "prismjs/themes/prism-tomorrow.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
@@ -14,7 +17,7 @@
   --color-bg-painted: #333;
   --color-border-dark: #333;
   --color-border: #ddd;
-  --color-border-light: #f3f3f3;
+  --color-border-light: #e3e3e3;
   --color-current: #eee;
   --color-button-primary: #333;
   --border-radius: 4px;
@@ -38,6 +41,8 @@ body {
     sans-serif;
   color: var(--color-text-main);
   line-height: 1.8;
+  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
+  --tw-bg-opacity: 1;
 }
 
 code {

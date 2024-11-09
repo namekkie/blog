@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./index.module.css";
 import Menu from "../Menu";
@@ -6,17 +5,12 @@ import Menu from "../Menu";
 export default function Header() {
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.logoLink}>
-        <Image
-          src="/logo.svg"
-          alt="ギークになりたい"
-          className={styles.logo}
-          width={348}
-          height={133}
-          priority
-        />
-      </Link>
-      <Menu />
+      <div className="max-w-screen-lg flex items-center container m-auto justify-between px-2">
+        <Link href="/" className={styles.logoLink}>
+          <h1 className=" font-bold  text-xl">ギークになりたい</h1>
+        </Link>
+        <Menu />
+      </div>
     </header>
   );
 }

@@ -37,6 +37,7 @@ export function getAllPostIds(): PostIdParams[] {
   });
 }
 
+// ブログ詳細の取得
 export async function getPostData(id: string): Promise<PostData> {
   // mdファイルの読み込み
   const fullPath = path.join(postsDirectory, `${id}/post.md`);
@@ -44,13 +45,7 @@ export async function getPostData(id: string): Promise<PostData> {
 
   // gray-matterを使ってメタデータと内容を分離
   const matterResult = matter(fileContents);
-
-  // remarkを使ってMarkdownをHTML文字列に変換
-  // const processedContent = await remark()
-  //   .use(html)
-  //   .process(matterResult.content);
-  // const contentHtml = processedContent.toString();
-
+  // ブログ内容
   const contentHtml = matterResult.content;
 
   return {
@@ -63,10 +58,13 @@ export async function getPostData(id: string): Promise<PostData> {
   };
 }
 
-export async function getAllPostData(length?: number): Promise<PostData[]> {
+// ブログ一覧の取得
+export async function getAllPostData(
+  length?: number,
+  q?: string
+): Promise<PostData[]> {
   const dirEntry = fs.readdirSync(postsDirectory, { withFileTypes: true }); // ディレクトリエントリ情報を取得
   const dirNames = dirEntry.filter((entry) => entry.isDirectory()); // ディレクトリのみをフィルタ
-  // const fileNames = fs.readdirSync(postsDirectory);
 
   // 各ファイルのデータを取得し、PostData型の配列として返す
   const allPostsData = await Promise.all(
@@ -77,13 +75,6 @@ export async function getAllPostData(length?: number): Promise<PostData[]> {
 
       // gray-matterでメタデータとコンテンツを分離
       const matterResult = matter(fileContents);
-
-      // MarkdownコンテンツをHTMLに変換
-      //const processedContent = await remark();
-      //.use(html)
-      // .use(prism)
-      //.process(matterResult.content);
-      //const contentHtml = processedContent.toString();
       const contentHtml = matterResult.content;
 
       // PostDataオブジェクトを返す
@@ -97,6 +88,17 @@ export async function getAllPostData(length?: number): Promise<PostData[]> {
       };
     })
   );
+  // 検索キーワードが与えられた場合、そのキーワードを使ってタイトルや本文をフィルタリング
+  if (q) {
+    return allPostsData.filter((post) => {
+      const searchTerm = q.toLowerCase();
+      // タイトルと本文が検索キーワードに一致するかを判定
+      return (
+        post.title.toLowerCase().includes(searchTerm) ||
+        post.contentHtml.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
   // 指定された長さ分返す
   if (length) {
     return allPostsData.slice(0, length);

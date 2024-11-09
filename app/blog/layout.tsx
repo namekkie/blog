@@ -1,4 +1,3 @@
-import Hero from "@/app/_components/Hero";
 import Sheet from "@/app/_components/Sheet";
 
 type Props = {
@@ -8,7 +7,6 @@ type Props = {
 export default function NewsLayout({ children }: Props) {
   return (
     <>
-      <Hero title="BLOG" sub="ブログ" />
       <Sheet>{children}</Sheet>
     </>
   );

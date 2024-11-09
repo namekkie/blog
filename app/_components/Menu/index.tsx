@@ -1,7 +1,9 @@
 "use client";
 
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IconContext } from "react-icons";
+import { RxCross1 } from "react-icons/rx";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import cx from "classnames";
 import styles from "./index.module.css";
@@ -19,25 +21,27 @@ export default function Menu() {
             <Link href="/blog">BLOG</Link>
           </li>
           {/* <li>
-            <Link href="/book">BOOK</Link>
+            <Link href="/timeline">TIMELINE</Link>
           </li>
           <li>
-            <Link href="/timeline">TIMELINE</Link>
+            <Link href="/profile">Profile</Link>
           </li> */}
         </ul>
-        <button className={cx(styles.button, styles.close)} onClick={close}>
-          <Image
-            src="/close.svg"
-            alt="閉じる"
-            width={24}
-            height={24}
-            priority
-          />
-        </button>
+        {/* 閉じるボタン */}
+        <IconContext.Provider value={{ size: "30px" }}>
+          <div className=" flex justify-end">
+            <button className={cx(styles.button, styles.close)} onClick={close}>
+              <RxCross1 />
+            </button>
+          </div>
+        </IconContext.Provider>
       </nav>
-      <button className={styles.button} onClick={open}>
-        <Image src="/menu.svg" alt="メニュー" width={24} height={24} />
-      </button>
+      {/* ハンバーガーメニュー */}
+      <IconContext.Provider value={{ size: "30px" }}>
+        <button className={styles.button} onClick={open}>
+          <RxHamburgerMenu />
+        </button>
+      </IconContext.Provider>
     </div>
   );
 }

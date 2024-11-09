@@ -1,4 +1,4 @@
-import { getBlogList } from "@/app/_libs/microcms";
+import { getAllPostData } from "@/app/_libs/post";
 import { BLOG_LIST_LIMIT } from "@/app/_constants";
 import BlogList from "@/app/_components/BlogList";
 import SearchField from "@/app/_components/SearchField";
@@ -10,10 +10,10 @@ type Props = {
 };
 
 export default async function Page({ searchParams }: Props) {
-  const { contents: blog } = await getBlogList({
-    limit: BLOG_LIST_LIMIT,
-    q: searchParams.q,
-  });
+  // searchParamsは非同期に取得されるため、awaitを使ってアクセスする
+  const q = searchParams.q || ""; // デフォルト値として空文字を設定
+
+  const blog = await getAllPostData(BLOG_LIST_LIMIT, q);
 
   return (
     <>

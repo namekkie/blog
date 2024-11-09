@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className={styles.top}>
+      {/* <section className={styles.top}>
         <div>
           <h1 className={styles.title}>ギークになりたい</h1>
           <p className={styles.description}>小さな一歩。ただ、確実な進歩。</p>
@@ -24,7 +24,7 @@ export default async function Home() {
           width={4000}
           height={1200}
         />
-      </section>
+      </section> */}
       <section className={styles.news}>
         <h2 className={styles.newsTitle}>New</h2>
         <BlogList blog={data} />
