@@ -6,10 +6,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <nav className={styles.nav}>
         <ul className={styles.items}>
-          {/* <li className={styles.item}>
+          <li className={styles.item}>
             <Link href="/blog">ブログ</Link>
           </li>
-          <li className={styles.item}>
+          {/* <li className={styles.item}>
             <Link href="/members">メンバー</Link>
           </li>
           <li className={styles.item}>

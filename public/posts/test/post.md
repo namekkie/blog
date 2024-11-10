@@ -1,9 +1,11 @@
 ---
 title: "Next.jsでmarkdownブログを構築"
 createdAt: "2022-07-13"
-publishedAt: "2022-07-13"
+updatedAt: "2022-07-13"
 description: "Next.jsでmarkdownファイルを利用したブログの構築手順を解説しています。"
-category: "CTF"
+category:
+  - "CTF"
+  - "AAA"
 ---
 
 Next.js を使って Markdown のブログサイトの構築を一から行なっていきます。
@@ -14,7 +16,11 @@ Next.js を使って Markdown のブログサイトの構築を一から行な�
 
 #### test
 
-![markdown dir](./h07.png)
+![markdown dir](/posts/test//h07.png)
+
+https://www.youtube.com/watch?v=WRVsOCh907o
+
+https://twitter.com/jack/status/20
 
 ```typescript:file/index.ts
 // src/@types/remark-prism.d.ts
@@ -27,6 +33,16 @@ declare module "remark-prism" {
 }
 ```
 
+```diff js:test.js
+@@ -4,6 +4,5 @@
++    const foo = bar.baz([1, 2, 3]) + 1;
+-    let foo = bar.baz([1, 2, 3]);
+```
+
+:::message
+メッセージをここに
+:::
+
 `puts 'Qiita'` と書くことでインライン表示することも可能です。
 
 > 文頭に>を置くことで引用になります。
@@ -38,6 +54,8 @@ declare module "remark-prism" {
 
 [Qiita](http://qiita.com "Qiita Home")
 
+http://qiita.com
+
 | Left align | Right align | Center align |
 | :--------- | ----------: | :----------: |
 | This       |        This |     This     |
@@ -47,9 +65,8 @@ declare module "remark-prism" {
 | left       |       right |    center    |
 | aligned    |     aligned |   aligned    |
 
-```math
-\left( \sum_{k=1}^n a_k b_k \right)^{\!\!2} \leq
-\left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
-```
+$$
+e^{i\theta} = \cos\theta + i\sin\theta
+$$
 
 npx create-next-app コマンドを利用して Next.js プロジェクトの作成を行います。

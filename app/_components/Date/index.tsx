@@ -1,4 +1,5 @@
-import Image from "next/image";
+import React from "react";
+import { IoMdTime } from "react-icons/io";
 import styles from "./index.module.css";
 import { formatDate } from "@/app/_libs/utils";
 
@@ -9,7 +10,7 @@ type Props = {
 export default function Date({ date }: Props) {
   return (
     <span className={styles.date}>
-      <Image src="/clock.svg" alt="" width={16} height={16} loading="eager" />
+      <IoMdTime size={20} />
       {formatDate(date)}
     </span>
   );

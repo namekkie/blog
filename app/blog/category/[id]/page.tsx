@@ -1,9 +1,8 @@
-import { getCategoryDetail, getBlogList } from "@/app/_libs/microcms";
-import { notFound } from "next/navigation";
+import { getCategoryPostData } from "@/app/_libs/post";
 import BlogList from "@/app/_components/BlogList";
 import Pagination from "@/app/_components/Pagination";
 import Category from "@/app/_components/Category";
-import { BLOG_LIST_LIMIT } from "@/app/_constants";
+import SearchField from "@/app/_components/SearchField";
 
 type Props = {
   params: {
@@ -12,22 +11,19 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const category = await getCategoryDetail(params.id).catch(notFound);
-
-  const { contents: blog, totalCount } = await getBlogList({
-    limit: BLOG_LIST_LIMIT,
-    filters: `category[equals]${category.id}`,
-  });
+  const categoryPostData = await getCategoryPostData(params.id);
+  const totalCount = categoryPostData.length;
 
   return (
     <>
-      <p>
-        <Category category={category} /> の一覧
-      </p>
-      <BlogList blog={blog} />
+      <SearchField />
+      <h2 className=" text-lg font-bold mt-5 mb-5">
+        <Category category={params.id} /> の一覧
+      </h2>
+      <BlogList blog={categoryPostData} />
       <Pagination
         totalCount={totalCount}
-        basePath={`/blog/category/${category.id}`}
+        basePath={`/blog/category/${params.id}`}
       />
     </>
   );
