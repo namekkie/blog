@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
-import { getCategoryDetail, getBlogList } from "@/app/_libs/microcms";
 import BlogList from "@/app/_components/BlogList";
 import Pagination from "@/app/_components/Pagination";
-import { BLOG_LIST_LIMIT } from "@/app/_constants";
+import { getCategoryPostData, getNumPostData } from "@/app/_libs/post";
+import Category from "@/app/_components/Category";
+import SearchField from "@/app/_components/SearchField";
 
 type Props = {
   params: {
@@ -18,25 +19,24 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  const category = await getCategoryDetail(params.id).catch(notFound);
-
-  const { contents: blog, totalCount } = await getBlogList({
-    filters: `category[equals]${category.id}`,
-    limit: BLOG_LIST_LIMIT,
-    offset: BLOG_LIST_LIMIT * (current - 1),
-  });
-
-  if (blog.length === 0) {
+  const categoryPostData = await getCategoryPostData(current, params.id);
+  if (categoryPostData.length === 0) {
     notFound();
   }
+  // categoryがついているブログ数を取得
+  const totalCount = (await getCategoryPostData(0, params.id)).length;
 
   return (
     <>
-      <BlogList blog={blog} />
+      <SearchField />
+      <h2 className=" text-lg font-bold mt-5 mb-5">
+        <Category category={params.id} /> の一覧
+      </h2>
+      <BlogList blog={categoryPostData} />
       <Pagination
         totalCount={totalCount}
         current={current}
-        basePath={`/blog/category/${category.id}`}
+        basePath={`/blog/category/${params.id}`}
       />
     </>
   );

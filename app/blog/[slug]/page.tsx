@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   const paths = getAllPostIds();
 
   return paths.map((path) => ({
-    id: path.params.id,
+    id: path.params.name,
   }));
 }
 

@@ -13,7 +13,7 @@ export default async function Page({ searchParams }: Props) {
   // searchParamsは非同期に取得されるため、awaitを使ってアクセスする
   const q = searchParams.q || ""; // デフォルト値として空文字を設定
 
-  const blog = await getAllPostData(BLOG_LIST_LIMIT, q);
+  const blog = await getAllPostData(BLOG_LIST_LIMIT, BLOG_LIST_LIMIT, q);
 
   return (
     <>

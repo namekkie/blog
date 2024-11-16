@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { getBlogList } from "@/app/_libs/microcms";
 import BlogList from "@/app/_components/BlogList";
 import Pagination from "@/app/_components/Pagination";
 import { BLOG_LIST_LIMIT } from "@/app/_constants";
 import { getAllPostData, getNumPostData } from "@/app/_libs/post";
+import SearchField from "@/app/_components/SearchField";
 
 type Props = {
   params: {
@@ -19,8 +19,7 @@ export default async function Page({ params }: Props) {
   }
 
   // ページごとのブログ情報の取得
-  const pageNum = parseInt(params.current, 10);
-  const pageData = await getAllPostData(pageNum, BLOG_LIST_LIMIT);
+  const pageData = await getAllPostData(current, BLOG_LIST_LIMIT);
   if (pageData.length === 0) {
     notFound();
   }
@@ -29,6 +28,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
+      <SearchField />
       <BlogList blog={pageData} />
       <Pagination totalCount={totalCount} current={current} />
     </>

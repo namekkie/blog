@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import markdownToHtml from "zenn-markdown-html";
+import { BLOG_LIST_LIMIT } from "@/app/_constants";
 
 const postsDirectory = path.join(process.cwd(), "public/posts");
 
@@ -16,7 +17,7 @@ export type PostData = {
 
 type PostIdParams = {
   params: {
-    id: string;
+    name: string;
   };
 };
 
@@ -30,7 +31,7 @@ export function getAllPostIds(): PostIdParams[] {
   return dirNames.map((dirname) => {
     return {
       params: {
-        id: dirname.name, // ディレクトリ名を取得
+        name: dirname.name, // ディレクトリ名を取得
       },
     };
   });
@@ -111,7 +112,7 @@ async function getPostDataFromFile(): Promise<PostData[]> {
 // ********************************************
 export async function getAllPostData(
   index: number = 1,
-  length?: number,
+  length: number = 0,
   q?: string
 ): Promise<PostData[]> {
   // 全てのブログデータを取得する
@@ -129,7 +130,7 @@ export async function getAllPostData(
   }
 
   // 指定された長さ分返す
-  if (length) {
+  if (0 < length) {
     const start = (index - 1) * length;
     const end = start + length;
     return allPostsData.slice(start, end);
@@ -142,6 +143,7 @@ export async function getAllPostData(
 // 指定されたカテゴリーのブログ一覧の取得
 // ********************************************
 export async function getCategoryPostData(
+  index: number = 1,
   category?: string
 ): Promise<PostData[]> {
   // 全てのブログデータを取得する
@@ -156,7 +158,14 @@ export async function getCategoryPostData(
       )
     : allPostsData;
 
-  return filteredPosts;
+  // 指定された長さ分返す
+  if (index > 0) {
+    const start = (index - 1) * BLOG_LIST_LIMIT;
+    const end = start + BLOG_LIST_LIMIT;
+    return filteredPosts.slice(start, end);
+  } else {
+    return filteredPosts;
+  }
 }
 
 // ********************************************

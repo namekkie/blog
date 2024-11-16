@@ -11,8 +11,9 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const categoryPostData = await getCategoryPostData(params.id);
-  const totalCount = categoryPostData.length;
+  const categoryPostData = await getCategoryPostData(1, params.id);
+  // categoryがついているブログ数を取得
+  const totalCount = (await getCategoryPostData(0, params.id)).length;
 
   return (
     <>

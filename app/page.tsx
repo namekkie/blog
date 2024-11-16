@@ -8,23 +8,10 @@ import { getAllPostData } from "@/app/_libs/post";
 
 export default async function Home() {
   // ブログ一覧を取得
-  const data = await getAllPostData(TOP_BLOG_LIMIT);
+  const data = await getAllPostData(undefined, TOP_BLOG_LIMIT, undefined);
 
   return (
     <>
-      {/* <section className={styles.top}>
-        <div>
-          <h1 className={styles.title}>ギークになりたい</h1>
-          <p className={styles.description}>小さな一歩。ただ、確実な進歩。</p>
-        </div>
-        <Image
-          className={styles.bgimg}
-          src="/img-mv.jpg"
-          alt=""
-          width={4000}
-          height={1200}
-        />
-      </section> */}
       <section className={styles.news}>
         <h2 className={styles.newsTitle}>New</h2>
         <BlogList blog={data} />

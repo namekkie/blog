@@ -17,15 +17,17 @@ export default function BlogList({ blog }: Props) {
     <ul>
       {blog.map((article) => (
         <li key={article.id} className={styles.list}>
-          <Link href={`/blog/${article.id}`} className={styles.link}>
+          <div className={styles.link}>
             <dl className={styles.content}>
-              <dt className={styles.title}>{article.title}</dt>
+              <Link href={`/blog/${article.id}`}>
+                <dt className={styles.title}>{article.title}</dt>
+              </Link>
               <dd className={styles.meta}>
                 <Category category={article.category} />
                 <Date date={article.createdAt} />
               </dd>
             </dl>
-          </Link>
+          </div>
         </li>
       ))}
     </ul>
