@@ -94,7 +94,6 @@ async function getPostDataFromFile(): Promise<PostData[]> {
       return {
         id,
         title: matterResult.data.title ?? "Untitled",
-        // category: matterResult.data.category ?? "Uncategorized",
         category: Array.isArray(matterResult.data.category)
           ? matterResult.data.category
           : [matterResult.data.category], // 変更: 配列でなければ配列に変換
@@ -103,7 +102,8 @@ async function getPostDataFromFile(): Promise<PostData[]> {
       };
     })
   );
-
+  // 新しいのが先頭に来るように並び替え
+  allPostsData.reverse();
   return allPostsData;
 }
 
