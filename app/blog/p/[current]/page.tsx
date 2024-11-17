@@ -12,14 +12,15 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const current = parseInt(params.current as string, 10);
+  const { current } = await params;
+  const cur = parseInt(current as string, 10);
 
-  if (Number.isNaN(current) || current < 1) {
+  if (Number.isNaN(cur) || cur < 1) {
     notFound();
   }
 
   // ページごとのブログ情報の取得
-  const pageData = await getAllPostData(current, BLOG_LIST_LIMIT);
+  const pageData = await getAllPostData(cur, BLOG_LIST_LIMIT);
   if (pageData.length === 0) {
     notFound();
   }
@@ -30,7 +31,7 @@ export default async function Page({ params }: Props) {
     <>
       <SearchField />
       <BlogList blog={pageData} />
-      <Pagination totalCount={totalCount} current={current} />
+      <Pagination totalCount={totalCount} current={cur} />
     </>
   );
 }

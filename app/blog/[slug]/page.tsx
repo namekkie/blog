@@ -12,7 +12,7 @@ type Props = {
 
 /// `generateStaticParams`で静的パスを生成
 export async function generateStaticParams() {
-  const paths = getAllPostIds();
+  const paths = await getAllPostIds();
 
   return paths.map((path) => ({
     id: path.params.name,
@@ -21,7 +21,8 @@ export async function generateStaticParams() {
 
 // サーバーコンポーネントとしてデータを取得して表示
 export default async function Post({ params }: Props) {
-  const postData = await getPostData(params.slug);
+  const { slug } = await params;
+  const postData = await getPostData(slug);
 
   // 投稿データが存在しない場合は404ページに遷移
   if (!postData) {

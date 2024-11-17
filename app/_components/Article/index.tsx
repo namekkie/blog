@@ -93,9 +93,9 @@ export default function Article({ data }: Props) {
         <Link
           href={`/blog/category/${data.category}`}
           className={styles.categoryLink}
-        >
-          <Category category={data.category} />
-        </Link>
+        ></Link>
+        <Category category={data.category} />
+
         <Date date={data.createdAt} />
       </div>
       <div
