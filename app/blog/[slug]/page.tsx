@@ -5,17 +5,16 @@ import styles from "./page.module.css";
 import { getAllPostIds, getPostData } from "@/app/_libs/post";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 /// `generateStaticParams`で静的パスを生成
 export async function generateStaticParams() {
   const paths = await getAllPostIds();
-
   return paths.map((path) => ({
-    id: path.params.name,
+    params: { slug: path.params.name },
   }));
 }
 

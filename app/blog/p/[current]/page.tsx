@@ -6,9 +6,9 @@ import { getAllPostData, getNumPostData } from "@/app/_libs/post";
 import SearchField from "@/app/_components/SearchField";
 
 type Props = {
-  params: {
+  params: Promise<{
     current: string;
-  };
+  }>;
 };
 
 export default async function Page({ params }: Props) {

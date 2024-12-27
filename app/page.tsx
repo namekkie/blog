@@ -1,5 +1,4 @@
 import styles from "./page.module.css";
-import Image from "next/image";
 
 import { TOP_BLOG_LIMIT } from "@/app/_constants";
 import BlogList from "@/app/_components/BlogList";

@@ -5,9 +5,9 @@ import Category from "@/app/_components/Category";
 import SearchField from "@/app/_components/SearchField";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function Page({ params }: Props) {

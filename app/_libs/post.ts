@@ -27,7 +27,6 @@ type PostIdParams = {
 export function getAllPostIds(): PostIdParams[] {
   const dirEntry = fs.readdirSync(postsDirectory, { withFileTypes: true }); // ディレクトリエントリ情報を取得
   const dirNames = dirEntry.filter((entry) => entry.isDirectory()); // ディレクトリのみをフィルタ
-
   return dirNames.map((dirname) => {
     return {
       params: {
